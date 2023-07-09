@@ -1,0 +1,277 @@
+---
+output:
+  pdf_document: default
+  html_document: default
+---
+Intro to R
+
+Start with opening default R (no script)
+We want to change one setting: Go to tools -> global options -> General -> Basic. Under "workspace", make sure "Restore .RData into workspace at startup" is NOT checked and make sure "Save workspace to .RData on exit" is set to "Never".
+
+Mention how there are different quadrants
+
+Next, introduce the console:
+- In this section, we can run all of our code
+- R, like most other programming languages can be used as a fancy calculator
+- Type in `2+2` to the console (spacing doesn't matter). It returns 4!
+- Notice how there is a [1] in front of the 4. In R, most things are treated as a vector. A vector is just a list of values where all the values are the same type. In this case, R is telling us that the value at index 1 is the value 4. When we get into longer vectors it will make more sense, but just know that it's normal to have a little [1] there for now.
+
+- We can also use functions here in the console. Let's try with a classic "hello world". To do this, we will use the `print()` function. Type `print("hello world")` into the console. What happens if we forget the quotes? Try doing `print(hello)`
+- It says it can't find a hello object! Objects are how we can store information to use later. To create an object and assign it a value, we will use the arrow (`<-`). Try typing `number <- 4`. Huh, where did it go? When we save a value to an object, it doesn't print to the console. Instead, it saves the value under a name in the environment. Look up in the top right quadrant! Now, try typing `number` into the console. We can also formally `print(number)`
+-What happens if we do `number + 2`? Look in the environment, does the value stored in `number` change? No! To change it, we need to do `number <- number + 2`
+-Okay, let's say we are done for the day, and we close this window. 
+-When we open it back up, all our work is gone! The console is a good place to test out some code or to look at something quickly, but nothing typed directly into the console will be saved!
+-Let's go to the top left and make a script. Click on "R Script". Now, we can take some notes as we practice and save it for later! Let's test it.
+-Now, type `number <- 4` into the script. Now since we are in a script, we will need to run this line of code after we type it. We can do that by doing command+enter on a mac or control+enter on a windows. number is back in our environment! Now, close R Studio and open it up again. 
+-See, our environment is clear, but our script is still there! We can run our code again and get everything back exactly as it was
+-Just to be safe (and good practice for later), let's go ahead and name our script. Click the save button or go to file -> save and give it a name. How about "IntroR". You can also choose where you want to save it. Pick a folder to save it, then let's go find it! 
+-If you close your script, you will have to find it in your files. One way to do this is with the file quadrant on the bottom right! I saved mine in the DSRP2023 folder, and there it is! Now, I can open it back up again!
+
+Another way we can stay organized is by using R projects. This keeps all your files in a nice tidy place for you to come back and find everything easily. Let's make one for this program. Go to the top right where there is a cube with the letter R in it where it says "Project: (None)" and choose "New project". Choose "R project" and give it a name and save it to a location of your choosing. 
+
+Now, let's get a little organized. Let's make a folder called "Notes". Go to the file tab and click on "New Folder". Name it "Notes". Click it to open it up, then while inside the folder choose new blank file -> R Script. Call it whatever you want, I am going to call it 1_Intro. Try not to include spaces. 
+
+Great, now we are really ready to get going! 
+
+-So I mentioned one reason we should make a script is to make notes, but we can't just type like normal or R will think it is code and get confused and throw a lot of errors. Instead, we will write our notes as comments. Any text after a `#` will be ignored by R. Let's try!
+
+```{r}
+# This is a comment
+number <- 5
+number + 2 # R doesn't care what I put here
+```
+See how it just skips right over it with no errors! Comments help keep our code organized and easy to follow for anyone we share code with or our future selves!
+
+```{r}
+
+# save the number 4 to an object
+number <- 4
+
+# print out the number
+print(number)
+
+## We can make sections with 4 hashtags ####
+
+```
+
+Let's talk a bit more about objects
+
+```{r}
+## R objects
+# can be lots of different types
+
+number <- 5 #decimal as default
+decimal <- 1.5
+
+# single letters and full words are both type character 
+letter <- 'a'
+word <- "hello"
+
+logic <- TRUE
+logic2 <- T
+
+class(number)
+typeof(number)
+
+# force to integer
+int <- as.integer(number)
+as.character(number) #force to character
+
+## Names can be anything, but can't start with a number and can't have spaces 
+# can't have special characters with other meanings (-, +, /, *, %, $, @) or comment (#)
+name <- "Sarah"
+Name <- "Bob"
+NAME <- "Sam"
+n.ame <- "Joe"
+n_a_m_e <- "Lisa"
+
+## good naming conventions
+camelCase <- "camel"
+snake_case <- "snake"
+
+# Adding
+number + decimal
+#remember to save to a new object if you want to use this value later
+new_num <- number + decimal 
+#letter + word #error
+
+floor(1.5)
+ceiling(1.5)
+round(1.5)
+
+# To add characters together, use paste()
+paste(letter,word)
+paste(letter, number) #non-character objects are forced into characters
+paste(logic,letter)
+
+# If you want no spaces, use paste0
+paste0(letter,word)
+
+```
+So far, we have dealt with just one value at a time. Let's talk a bit more about vectors
+```{r}
+# Vectors ####
+# vectors are objects that store one or more values of the same type
+
+# make a vector of numerics
+numbers <- c(1,2,3,4,5) #c means "combine"
+?c
+
+# make a vector of characters
+letters <- c("a","b","c")
+
+# combine objects
+words <- c(letters,word)
+words
+
+# shortcuts for vectors of numbers
+rep(5,10) # repeat a number a certain number of times
+seq(0,100,5) # from 0 to 100 by 5s
+1:15 # all integers 1 to 15
+
+## How would you do 1 to 5 by 0.5?
+seq(1,5,0.5)
+
+## Vector functions
+numbers <- sample(1:25,20,T)
+numbers
+sort(numbers)
+numbers <- sort(numbers)
+unique(numbers)
+length(numbers)
+table(numbers)
+
+## Vector calculations
+sum(numbers)
+numbers + 5
+numbers/2
+
+a <- c(1,2,3)
+b <- c(4,5,6)
+a + b
+
+x <- c(a,b)
+x
+d <- c(1,2)
+x + d
+
+x %% 2 # remainder
+
+## Vector Indexing
+x
+x[1]
+x[-1]
+x[2:4]
+x[d]
+
+x[c(3,4,5,6,1,2)] # use to resort
+
+x < 5
+x[x < 5]
+
+x == 5 # is equal
+x != 5 # is not equal
+x < 5 # less than
+x >= 5 # greater than or equal to
+x %in% c(2,4,6,8) 
+
+## Indexing character vectors
+food <- c("meatballs","potato","rice","popcorn","watermelon")
+food[4]
+food[2:5]
+grep("po",food)
+grepl("po",food)
+food[grep("po",food)]
+
+```
+
+
+```{r}
+## for loops ####
+fruits <- c("apple","banana","mango","tangerine")
+for(fruit in fruits){
+  print(fruit)
+}
+
+for(f in fruits){
+  print(f)
+}
+
+## if statements
+if(length(fruits) > 5){
+  print("That's a lot of fruit!")
+} else {
+  print("That's a reasonable amount of fruit.")
+}
+
+ifelse(length(fruits) > 5, "a lot", "a reasonable amount")
+
+fruits <- c(fruits, "mango", "strawberry", "watermelon")
+
+print(paste("That's ", ifelse(length(fruits) > 5, "a lot", "a reasonable amount"), " of fruit"))
+
+```
+
+```{r}
+## Datasets ####
+## There are lots of datasets included with R Studio
+?datasets
+
+?mtcars
+mtcars
+
+#View(mtcars)
+summary(mtcars)
+head(mtcars)
+str(mtcars)
+names(mtcars)
+
+mtcars[,1]
+mtcars[,"mpg"]
+mtcars$mpg 
+# now we can treat this like any other vector
+
+mtcars[1:2,1:2] #subset to first 2 rows & first 2 columns
+
+sum(mtcars$mpg)
+
+```
+We can also read in our own data
+
+- add a folder called "data"
+- download the super_hero_powers.csv and put it in this folder
+```{r}
+getwd()
+
+supers <- read.csv("data/super_hero_powers.csv")
+#supers
+#View(supers)
+head(supers)
+
+```
+
+
+
+
+Plan:
+- vector functions (sort, rev, table, unique, summary functions vs vector math)
+- for loops
+- vector indexing
+- conditionals and which() (include grep and grepl)
+- if statements
+- dataset functions 
+- dataset indexing ($ and [ ])
+- file paths, reading in files (read.csv)
+- packages (read_csv)
+- stats
+
+
+Outline:
+- the R studio quadrants
+- create an R project
+- new R script in notes folder
+- comments
+- objects
+- vectors
+- for loops/ if statements
+- datasets
